@@ -1,6 +1,7 @@
 <template>
   <v-container>
     {{this.ingredients}}
+    <p>test</p>
   </v-container>
 </template>
 
