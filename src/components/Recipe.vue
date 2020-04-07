@@ -1,14 +1,12 @@
 <template>
   <v-container>
-    {{this.ingredients}}
-    <p>test</p>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'cocktails',
+  name: 'recipe',
 
   computed: {
     ...mapState('categories', ['categories']),
