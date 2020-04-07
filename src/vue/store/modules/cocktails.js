@@ -12,6 +12,7 @@ const state = {
 
 const getters = {
   getCocktailById: state => idDrink => {
+    console.log(idDrink)
     return state.cocktails.find(_ => _.idDrink === parseInt(idDrink))
   }
 }
@@ -27,42 +28,43 @@ const mutations = {
   }
 }
 
-var range = (function () {
-  var data = []
-  while (data.length < 128) data.push(String.fromCharCode(data.length))
-  return function (start, stop) {
-    start = start.charCodeAt(0)
-    stop = stop.charCodeAt(0)
-    return (start < 0 || start > 127 || stop < 0 || stop > 127) ? null : data.slice(start, stop + 1)
-  }
-})()
+// var range = (function () {
+//   var data = []
+//   while (data.length < 128) data.push(String.fromCharCode(data.length))
+//   return function (start, stop) {
+//     start = start.charCodeAt(0)
+//     stop = stop.charCodeAt(0)
+//     return (start < 0 || start > 127 || stop < 0 || stop > 127) ? null : data.slice(start, stop + 1)
+//   }
+// })()
 
 const actions = {
-  async fetchCocktails ({ commit }) {
-    var charAlphaNum = [...range('A', 'Z'), ...range('0', '9')]
-    charAlphaNum.forEach(async function (character) {
-      var data = await axios.get(api('/search.php?f=' + character))
-      if (data !== null) {
-        // console.log('data', JSON.parse(JSON.stringify(data.data.drinks)))
-        data.data.drinks.forEach(d => commit('addCocktail', d))
-      }
-    })
-  },
+  // async fetchCocktails ({ commit }) {
+  //   var charAlphaNum = [...range('A', 'Z'), ...range('0', '9')]
+  //   charAlphaNum.forEach(async function (character) {
+  //     var data = await axios.get(api('/search.php?f=' + character))
+  //     if (data !== null) {
+  //       // console.log('data', JSON.parse(JSON.stringify(data.data.drinks)))
+  //       data.data.drinks.forEach(d => commit('addCocktail', d))
+  //     }
+  //   })
+  // },
 
   async fetchCocktail ({ commit }, { id }) {
     const { data } = await axios.get(api('/lookup.php?i=' + id))
+    console.log('Fetched a cocktail by id', JSON.parse(JSON.stringify(data)))
     commit('addCocktail', data)
   },
 
   async fetchRandomCocktail ({ commit }) {
     const { data } = await axios.get(api('/random.php'))
+    console.log('Fetched a random cocktail', JSON.parse(JSON.stringify(data.drinks)))
     commit('addCocktail', data)
   },
   async fetchCocktailsForCategory ({ commit }, { category }) {
     const { data } = await axios.get(api('/filter.php?c=' + category))
-    data.data.drinks.forEach(d => commit('addCocktail', d))
+    data.drinks.forEach(d => commit('addCocktail', d))
   }
-
 }
 
 export default {

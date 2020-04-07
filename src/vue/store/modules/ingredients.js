@@ -29,7 +29,7 @@ const actions = {
   async fetchIngredients ({ commit }) {
     const { data } = await axios.get(api('/list.php?i=list'))
     console.log('data ingredients', JSON.parse(JSON.stringify(data)))
-    data.forEach(d => commit('addIngredients', d))
+    // data.data.drinks.forEach(d => commit('addIngredients', d))
   },
 
   async fetchIngredient ({ commit }, { id }) {

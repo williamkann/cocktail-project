@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Cocktails from '../components/Cocktails.vue'
+import Homepage from '../components/Homepage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'cocktails',
-    component: Cocktails
+    name: 'homepage',
+    component: Homepage
+  },
+  {
+    path: '/category/:categoryName',
+    name: 'homepage',
+    component: Homepage
   }
 ]
 

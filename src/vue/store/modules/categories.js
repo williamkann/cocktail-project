@@ -30,7 +30,7 @@ const mutations = {
 const actions = {
   async fetchCategories ({ commit }) {
     var data = await axios.get(api('list.php?c=list'))
-    console.log('data', JSON.parse(JSON.stringify(data.data.drinks)))
+    console.log('Fetched the categories', JSON.parse(JSON.stringify(data.data.drinks)))
     data.data.drinks.forEach(d => commit('addCategory', d))
   }
 }
