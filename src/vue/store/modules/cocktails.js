@@ -7,13 +7,17 @@ function api (path) {
 }
 
 const state = {
-  cocktails: []
+  cocktails: [],
+  cocktail: {}
 }
 
 const getters = {
   getCocktailById: state => idDrink => {
     console.log(idDrink)
     return state.cocktails.find(_ => _.idDrink === parseInt(idDrink))
+  },
+  getCocktailRandom: state => {
+    return state.cocktail
   }
 }
 
@@ -25,6 +29,9 @@ const mutations = {
     } else {
       state.cocktails.push(cocktail)
     }
+  },
+  addRandomCocktail (state, cocktail) {
+    state.cocktail = cocktail
   }
 }
 
@@ -59,7 +66,7 @@ const actions = {
   async fetchRandomCocktail ({ commit }) {
     const { data } = await axios.get(api('/random.php'))
     console.log('Fetched a random cocktail', JSON.parse(JSON.stringify(data.drinks)))
-    commit('addCocktail', data)
+    commit('addRandomCocktail', data)
   },
   async fetchCocktailsForCategory ({ commit }, { category }) {
     const { data } = await axios.get(api('/filter.php?c=' + category))
