@@ -18,11 +18,14 @@ const getters = {
   },
   getCocktailRandom: state => {
     return state.cocktail
+  },
+  getCocktailSearch: state => {
+    return state.cocktails
   }
 }
 
 const mutations = {
-  addCocktail (state, cocktail) {
+  addCocktails (state, cocktail) {
     const existing = state.cocktails.findIndex(e => e.idDrink === cocktail.id)
     if (existing !== -1) {
       state.cocktails[existing] = cocktail
@@ -30,7 +33,7 @@ const mutations = {
       state.cocktails.push(cocktail)
     }
   },
-  addRandomCocktail (state, cocktail) {
+  addCocktail (state, cocktail) {
     state.cocktail = cocktail
   }
 }
@@ -59,14 +62,20 @@ const actions = {
 
   async fetchCocktail ({ commit }, { id }) {
     const { data } = await axios.get(api('/lookup.php?i=' + id))
-    console.log('Fetched a cocktail by id', JSON.parse(JSON.stringify(data)))
+    console.log('Fetched a cocktail by id ', JSON.parse(JSON.stringify(data)))
     commit('addCocktail', data)
   },
 
+  async fetchCocktailByName ({ commit }, { strDrink }) {
+    const { data } = await axios.get(api('/search.php?s=' + strDrink))
+    console.log('Fetched a cocktails by name ', JSON.parse(JSON.stringify(data)))
+    data.drinks.forEach(d => commit('addCocktails', d))
+    console.log(state.cocktails)
+  },
   async fetchRandomCocktail ({ commit }) {
     const { data } = await axios.get(api('/random.php'))
     console.log('Fetched a random cocktail', JSON.parse(JSON.stringify(data.drinks)))
-    commit('addRandomCocktail', data)
+    commit('addCocktail', data)
   },
   async fetchCocktailsForCategory ({ commit }, { category }) {
     const { data } = await axios.get(api('/filter.php?c=' + category))

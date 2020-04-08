@@ -5,19 +5,35 @@
       <v-toolbar-title>Cocktails Website</v-toolbar-title>
       <v-spacer></v-spacer>
         <div>
-          <v-text-field label="Search" placeholder="Type some cocktail"></v-text-field>
+          <v-text-field v-model="search" label="Search" placeholder="Type some cocktail"></v-text-field>
         </div>
         <v-btn @click="searchByName()">Search</v-btn>
     </v-toolbar>
       <v-alert outlined color="#3366cc">
-        <CategoryHomepage />
-        <RandomHomepage />
+        <!-- Components of the homepage -->
+        <v-row>
+          <v-col cols="12" sm="2" md="12">
+            {{this.cocktailsSearched}}
+            <CategoryHomepage />
+          </v-col>
+          <v-col cols="12" sm="2" md="12">
+            <v-divider></v-divider>
+          </v-col>
+          <v-col cols="12" sm="2" md="12">
+            <RandomHomepage />
+          </v-col>
+        </v-row>
       </v-alert>
   </v-container>
 </template>
 
+<style scoped>
+h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; letter-spacing: -1px; line-height: 2; text-align: center; }
+
+</style>
+
 <script>
-import { } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import CategoryHomepage from './CategoryHomepage.vue'
 import RandomHomepage from './RandomHomepage.vue'
 export default {
@@ -29,18 +45,25 @@ export default {
   },
 
   computed: {
+    ...mapState('cocktails', ['cocktails'])
   },
 
   async mounted () {
   },
 
   data: () => ({
-    search: ''
+    search: '',
+    cocktailsSearched: []
   }),
 
   methods: {
-    loadCategory: function () {
-      console.log('Clicked a V-card')
+    ...mapActions('cocktails', ['fetchCocktailByName']),
+    ...mapGetters('cocktails', ['getCocktailSearch']),
+    async searchByName () {
+      console.log(this.search)
+      await this.fetchCocktailByName({ strDrink: this.search })
+      this.cocktailsSearched = await this.getCocktailSearch()
+      console.log(this.getCocktailSearch())
     }
   }
 }

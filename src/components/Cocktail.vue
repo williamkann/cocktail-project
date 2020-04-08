@@ -1,12 +1,13 @@
 <template>
   <v-container>
+    Hello
   </v-container>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'recipe',
+  name: 'cocktail',
 
   computed: {
     ...mapState('categories', ['categories']),
