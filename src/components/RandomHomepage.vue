@@ -18,7 +18,7 @@
           <h1 justify-md="center"><v-icon>mdi-glass-tulip</v-icon>{{cocktailRandom.strDrink}}</h1>
       </v-col>
               <v-col cols="12" sm="2" md="4">
-          <h1 justify-md="center"><v-icon>mdi-glass-tulip</v-icon>Ingredients</h1>
+          <h1 justify-md="center"><v-icon>mdi-view-list</v-icon>Ingredients</h1>
       </v-col>
       <v-col cols="12" sm="2" md="4">
           <h1 justify-md="center"><v-icon>mdi-comment-text-outline</v-icon> Description</h1>

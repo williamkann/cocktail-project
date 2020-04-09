@@ -5,7 +5,7 @@
       <v-toolbar-title>Cocktails Website</v-toolbar-title>
       <v-spacer></v-spacer>
         <div>
-          <v-text-field v-model="search" label="Search" placeholder="Type some cocktail"></v-text-field>
+          <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
         </div>
         <v-btn @click="searchByName()">Search</v-btn>
     </v-toolbar>
@@ -45,7 +45,8 @@ export default {
   },
 
   computed: {
-    ...mapState('cocktails', ['cocktails'])
+    ...mapState('cocktails', ['cocktails']),
+    ...mapGetters('cocktails', ['getCocktailSearch'])
   },
 
   async mounted () {
@@ -53,17 +54,15 @@ export default {
 
   data: () => ({
     search: '',
-    cocktailsSearched: []
+    cocktailsSearched: [],
+    searchRules: [s => !!s || 'search invalid']
   }),
 
   methods: {
     ...mapActions('cocktails', ['fetchCocktailByName']),
-    ...mapGetters('cocktails', ['getCocktailSearch']),
     async searchByName () {
-      console.log(this.search)
       await this.fetchCocktailByName({ strDrink: this.search })
-      this.cocktailsSearched = await this.getCocktailSearch()
-      console.log(this.getCocktailSearch())
+      this.cocktailsSearched = await this.getCocktailSearch(this.search)
     }
   }
 }
