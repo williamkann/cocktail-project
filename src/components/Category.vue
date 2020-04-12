@@ -11,37 +11,22 @@
     </v-toolbar>
       <v-alert outlined color="#3366cc">
         <!-- Components of the homepage -->
-        <v-card width="1300" class="mx-auto">
-          <v-list three-line>
-            <template v-for="(cocktail, index) in visibleCocktails" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
-              <v-subheader
-                v-if="cocktail.header"
-                :key="cocktail.header"
-                v-text="cocktail.strDrink"
-              ></v-subheader>
 
-              <v-divider
-                v-else-if="cocktail.divider"
-                :key="index"
-                :inset="cocktail.inset"
-              ></v-divider>
-
-              <v-list-item
-                v-else
-                :key="cocktail.id"
-                @click="test()"
-              >
-                <v-list-item-avatar>
-                  <v-img :src="cocktail.strDrinkThumb"></v-img>
-                </v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title v-html="cocktail.strDrink"></v-list-item-title>
-                  <v-list-item-subtitle v-html="cocktail.strInstructions"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list>
+       <v-card class="mx-auto" max-width="1200" outlined>
+         <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
+          <v-list-item three-line @click="test()">
+            <v-list-item-avatar
+              tile
+              size="80"
+            >
+            <v-img :src="cocktail.strDrinkThumb"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>
+              <v-list-item-subtitle>{{cocktail.strInstructions}}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+         </div>
         </v-card>
         <!-- Component Pagination -->
         <Pagination :cocktailsSearched="this.cocktailsSearched"
