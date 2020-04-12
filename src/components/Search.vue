@@ -57,6 +57,7 @@ export default {
       this.search = this.value
       await this.fetchCocktailsByName({ strDrink: this.value })
       this.cocktailsSearched = await this.getCocktailSearch(this.value)
+      this.updateVisibleCocktails()
     }
   },
   computed: {

@@ -7,35 +7,48 @@ function api (path) {
 }
 
 const state = {
-  ingredients: []
+  ingredients: [],
+  ingredient: {}
 }
 
 const getters = {
-  getIngredientById: state => id => state.ingredients.find(_ => _.idIngredient === parseInt(id))
+  getIngredient: state => {
+    return state.ingredient
+  }
 }
 
 const mutations = {
   addIngredients (state, ingredient) {
     const existing = state.ingredients.findIndex(i => i.idIngredient === ingredient.idIngredient)
     if (existing !== -1) {
+      console.log('ex')
       state.ingredients[existing] = ingredient
     } else {
+      console.log('New')
       state.ingredients.push(ingredient)
     }
+  },
+  addIngredient (state, ingredient) {
+    state.ingredient = ingredient
   }
 }
 
 const actions = {
   async fetchIngredients ({ commit }) {
     const { data } = await axios.get(api('/list.php?i=list'))
-    console.log('data ingredients', JSON.parse(JSON.stringify(data)))
+    console.log('Fetched all ingredients', JSON.parse(JSON.stringify(data)))
     // data.data.drinks.forEach(d => commit('addIngredients', d))
   },
 
-  async fetchIngredient ({ commit }, { id }) {
-    const { data } = await axios.get(api('/lookup.php?iid=' + id))
-    commit('addModule', data)
+  async fetchIngredientByName ({ commit }, { ingredient }) {
+    const { data } = await axios.get(api('search.php?i=' + ingredient.split(' ').join('_')))
+    console.log('Fetched ingredient by name', JSON.parse(JSON.stringify(data)))
+    commit('addIngredient', data)
   }
+  // async fetchIngredientById ({ commit }, { id }) {
+  //   const { data } = await axios.get(api('/lookup.php?iid=' + id))
+  //   commit('addModule', data)
+  // }
 }
 
 export default {

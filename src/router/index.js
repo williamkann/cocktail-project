@@ -4,6 +4,7 @@ import Homepage from '../components/Homepage.vue'
 import Cocktail from '../components/Cocktail.vue'
 import Search from '../components/Search.vue'
 import Category from '../components/Category.vue'
+import Ingredient from '../components/Ingredient.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/search/:value',
     name: 'search',
     component: Search
+  },
+  {
+    path: '/ingredient/:ingredientName',
+    name: 'ingredient',
+    component: Ingredient
   }
 ]
 
