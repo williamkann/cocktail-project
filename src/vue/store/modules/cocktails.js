@@ -13,8 +13,9 @@ const state = {
 
 const getters = {
   getCocktailById: state => idDrink => {
-    console.log(idDrink)
-    return state.cocktails.find(_ => _.idDrink === parseInt(idDrink))
+    // console.log(state.cocktails.find(_ => _.idDrink === parseInt(idDrink.idDrink)))
+    // return state.cocktails.find(_ => _.idDrink === parseInt(idDrink.idDrink))
+    return state.cocktail.drinks[0]
   },
   getCocktailRandom: state => {
     return state.cocktail

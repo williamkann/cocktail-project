@@ -14,7 +14,7 @@
 
        <v-card class="mx-auto" max-width="1200" outlined>
          <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
-          <v-list-item three-line @click="test()">
+          <v-list-item three-line @click="loadCocktail(cocktail)">
             <v-list-item-avatar
               tile
               size="80"
@@ -92,6 +92,9 @@ export default {
       if (this.visibleCocktails.length === 0 && this.currentPage > 0) {
         this.updatePage(this.currentPage - 1)
       }
+    },
+    loadCocktail (cocktail) {
+      this.$router.push({ name: 'cocktail', params: { id: cocktail.idDrink } })
     }
   }
 }
