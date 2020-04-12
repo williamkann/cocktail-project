@@ -13,7 +13,6 @@
         <!-- Components of the homepage -->
         <v-row>
           <v-col cols="12" sm="2" md="12">
-            {{this.cocktailsSearched}}
             <CategoryHomepage />
           </v-col>
           <v-col cols="12" sm="2" md="12">
@@ -33,7 +32,7 @@ h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; l
 </style>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import CategoryHomepage from './CategoryHomepage.vue'
 import RandomHomepage from './RandomHomepage.vue'
 export default {
@@ -45,8 +44,7 @@ export default {
   },
 
   computed: {
-    ...mapState('cocktails', ['cocktails']),
-    ...mapGetters('cocktails', ['getCocktailSearch'])
+    ...mapState('cocktails', ['cocktails'])
   },
 
   async mounted () {
@@ -59,10 +57,8 @@ export default {
   }),
 
   methods: {
-    ...mapActions('cocktails', ['fetchCocktailByName']),
-    async searchByName () {
-      await this.fetchCocktailByName({ strDrink: this.search })
-      this.cocktailsSearched = await this.getCocktailSearch(this.search)
+    searchByName () {
+      this.$router.push({ name: 'search', params: { value: this.search } })
     }
   }
 }

@@ -100,6 +100,9 @@ export default {
   async mounted () {
     await this.fetchRandomCocktail()
     this.cocktailRandom = await this.getCocktailRandom().drinks[0]
+    if (this.cocktailRandom.strAlcoholic === 'Non alcoholic') {
+      console.log(this.isAlcoholic)
+    }
   },
   methods: {
     ...mapActions('cocktails', ['fetchRandomCocktail']),

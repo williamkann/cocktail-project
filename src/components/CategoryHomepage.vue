@@ -3,13 +3,13 @@
     <v-row justify-md="center">
       <!-- <draggable tag="div" v-model="modulesDatas" :animation="200" ghost-class="moving-card"> -->
         <!-- Display Categories -->
-        <div v-for="(category) in this.categories" :key="category.id">
+        <div v-for="(category, index) in this.categories" :key="category.id">
         <v-col cols="12" sm="2" md="12">
-            <v-card height=200 width=350 @click="loadCategory()">
+            <v-card height=200 width=350 @click="loadCategory(category)">
             <v-img
                 height="125"
                 class="grey darken-4"
-                src="../assets/ic_cocktails.jpg"
+                :src="images[index]"
             ></v-img>
             <v-card-title class="title">{{category.strCategory}}</v-card-title>
             </v-card>
@@ -30,7 +30,7 @@
 </style>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 // import draggable from 'vuedraggable'
 export default {
 
@@ -39,19 +39,37 @@ export default {
   },
   name: 'categoryHomepage',
   data: () => ({
+    firstCocktail: {},
+    images: []
   }),
   props: {
 
   },
 
   computed: {
-    ...mapState('categories', ['categories'])
+    ...mapState('categories', ['categories']),
+    ...mapGetters('cocktails', ['getCocktailsByCategory'])
   },
   async mounted () {
     await this.fetchCategories()
+
+    await Promise.all(
+      this.categories.map(c => this.fetchCocktailsForCategory({ category: c.strCategory }))
+    )
+    // Use of map to get the first cocktail and push his in the array 'images'
+    await Promise.all(
+      this.categories.map(async category => {
+        this.firstCocktail = await this.getCocktailsByCategory({ strCategory: category.strCategory })[0]
+        this.images.push(this.firstCocktail.strDrinkThumb)
+      })
+    )
   },
   methods: {
-    ...mapActions('categories', ['fetchCategories'])
+    ...mapActions('categories', ['fetchCategories']),
+    ...mapActions('cocktails', ['fetchCocktailsForCategory']),
+    loadCategory (category) {
+      this.$router.push({ name: 'category', params: { categoryName: category.strCategory } })
+    }
   }
 }
 </script>

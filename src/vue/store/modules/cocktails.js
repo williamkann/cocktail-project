@@ -28,6 +28,15 @@ const getters = {
       }
     })
     return resultSearch
+  },
+  getCocktailsByCategory: state => strCategory => {
+    var resultSearch = []
+    state.cocktails.forEach(function (cocktail) {
+      if (cocktail.strCategory === strCategory.strCategory) {
+        resultSearch.push(cocktail)
+      }
+    })
+    return resultSearch
   }
 }
 
@@ -66,14 +75,13 @@ const actions = {
   //     }
   //   })
   // },
-
   async fetchCocktailById ({ commit }, { id }) {
     const { data } = await axios.get(api('/lookup.php?i=' + id))
     console.log('Fetched a cocktail by id ', JSON.parse(JSON.stringify(data)))
     commit('addCocktail', data)
   },
 
-  async fetchCocktailByName ({ commit }, { strDrink }) {
+  async fetchCocktailsByName ({ commit }, { strDrink }) {
     const { data } = await axios.get(api('/search.php?s=' + strDrink))
     console.log('Fetched a cocktails by name ', JSON.parse(JSON.stringify(data)))
     if (data.drinks !== null) {
@@ -86,8 +94,13 @@ const actions = {
     commit('addCocktail', data)
   },
   async fetchCocktailsForCategory ({ commit }, { category }) {
-    const { data } = await axios.get(api('/filter.php?c=' + category))
-    data.drinks.forEach(d => commit('addCocktail', d))
+    console.log(category.split(' ').join('_'))
+    const { data } = await axios.get(api('filter.php?c=' + category.split(' ').join('_')))
+
+    // The API to get cocktails by category just gives us the name + thumbnail + idDrink so we add the property category
+    data.drinks.forEach(function (d) { d.strCategory = category })
+    console.log('Fetched a cocktails for category', JSON.parse(JSON.stringify(data)))
+    data.drinks.forEach(d => commit('addCocktails', d))
   }
 }
 

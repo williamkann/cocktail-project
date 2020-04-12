@@ -11,9 +11,9 @@ const state = {
 }
 
 const getters = {
-//   getCategories: state => {
-//     return state.categories.find(_ => _.idDrink === parseInt(idDrink))
-//   }
+  getCategories: state => {
+    return state.categories
+  }
 }
 
 const mutations = {
