@@ -38,6 +38,15 @@ const getters = {
       }
     })
     return resultSearch
+  },
+  getCocktailsByLetter: state => letter => {
+    var resultSearch = []
+    state.cocktails.forEach(function (cocktail) {
+      if (cocktail.strDrink.charAt(0) === letter.letter) {
+        resultSearch.push(cocktail)
+      }
+    })
+    return resultSearch
   }
 }
 
@@ -100,6 +109,11 @@ const actions = {
     // The API to get cocktails by category just gives us the name + thumbnail + idDrink so we add the property category
     data.drinks.forEach(function (d) { d.strCategory = category })
     console.log('Fetched a cocktails for category', JSON.parse(JSON.stringify(data)))
+    data.drinks.forEach(d => commit('addCocktails', d))
+  },
+  async fetchCocktailsByLetter ({ commit }, { letter }) {
+    const { data } = await axios.get(api('search.php?f=' + letter))
+    console.log('Fetched a cocktails by letter', JSON.parse(JSON.stringify(data)))
     data.drinks.forEach(d => commit('addCocktails', d))
   }
 }

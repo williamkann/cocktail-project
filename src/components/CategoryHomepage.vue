@@ -10,7 +10,8 @@
                 height="125"
                 class="grey darken-4"
                 :src="images[index]"
-            ></v-img>
+            >
+            </v-img>
             <v-card-title class="title">{{category.strCategory}}</v-card-title>
             </v-card>
         </v-col>
@@ -27,6 +28,15 @@
     @apply border;
     @apply border-blue-500;
   }
+
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
+}
 </style>
 
 <script>

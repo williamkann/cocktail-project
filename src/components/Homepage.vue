@@ -21,6 +21,12 @@
           <v-col cols="12" sm="2" md="12">
             <RandomHomepage />
           </v-col>
+         <v-col cols="12" sm="2" md="12">
+            <v-divider></v-divider>
+          </v-col>
+          <v-col cols="12" sm="2" md="12">
+            <CocktailsChar />
+          </v-col>
         </v-row>
       </v-alert>
   </v-container>
@@ -35,12 +41,14 @@ h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; l
 import { mapState } from 'vuex'
 import CategoryHomepage from './CategoryHomepage.vue'
 import RandomHomepage from './RandomHomepage.vue'
+import CocktailsChar from './CocktailsChar.vue'
 export default {
   name: 'homepage',
 
   components: {
     CategoryHomepage,
-    RandomHomepage
+    RandomHomepage,
+    CocktailsChar
   },
 
   computed: {
