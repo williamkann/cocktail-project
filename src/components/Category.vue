@@ -11,29 +11,53 @@
     </v-toolbar>
       <v-alert outlined color="#3366cc">
         <!-- Components of the homepage -->
-
-       <v-card class="mx-auto" max-width="1200" outlined>
-         <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
-          <v-list-item three-line @click="loadCocktail(cocktail)">
-            <v-list-item-avatar
-              tile
-              size="80"
-            >
-            <v-img :src="cocktail.strDrinkThumb"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>
-              <v-list-item-subtitle>{{cocktail.strInstructions}}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-         </div>
-        </v-card>
-        <!-- Component Pagination -->
-        <Pagination :cocktailsSearched="this.cocktailsSearched"
-                    v-on:page:update="updatePage"
-                    :currentPage="this.currentPage"
-                    :pageSize="this.pageSize"
-        />
+        <!-- Filter number of cocktails to display -->
+        <v-row>
+          <v-col cols="12" md="7">
+          </v-col>
+          <v-col cols="12" md="5">
+            <v-text-field
+              v-model="pageSize"
+              label="Pagination length"
+              max="25"
+              min="1"
+              step="1"
+              style="width: 125px"
+              type="number"
+            ></v-text-field>
+          </v-col>
+      </v-row>
+      <!-- Cocktails List -->
+      <v-row>
+        <v-col cols="12" md="12">
+        <v-card class="mx-auto" max-width="1200" outlined>
+          <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
+            <v-list-item three-line @click="loadCocktail(cocktail)">
+              <v-list-item-avatar
+                tile
+                size="80"
+              >
+              <v-img :src="cocktail.strDrinkThumb"></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>
+                <v-list-item-subtitle>{{cocktail.strInstructions}}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+          </v-card>
+        </v-col>
+      </v-row>
+      <!-- Component Pagination -->
+      <v-row>
+        <v-col cols="12" md="12">
+          <Pagination :cocktailsSearched="this.cocktailsSearched"
+                      v-on:page:update="updatePage"
+                      :currentPage="this.currentPage"
+                      :pageSize="this.pageSize"
+          />
+        </v-col>
+      </v-row>
       </v-alert>
   </v-container>
 </template>
@@ -51,6 +75,11 @@ export default {
 
   components: {
     Pagination
+  },
+  watch: {
+    pageSize: function () {
+      this.updateVisibleCocktails()
+    }
   },
   computed: {
     ...mapGetters('cocktails', ['getCocktailSearch']),
@@ -87,8 +116,9 @@ export default {
       this.updateVisibleCocktails()
     },
     updateVisibleCocktails () {
-      this.visibleCocktails = this.cocktailsSearched.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize)
-
+      const from = parseInt(this.currentPage) * parseInt(this.pageSize)
+      const to = parseInt(this.currentPage * this.pageSize) + parseInt(this.pageSize)
+      this.visibleCocktails = this.cocktailsSearched.slice(from, to)
       if (this.visibleCocktails.length === 0 && this.currentPage > 0) {
         this.updatePage(this.currentPage - 1)
       }

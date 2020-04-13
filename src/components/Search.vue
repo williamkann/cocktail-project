@@ -11,10 +11,25 @@
     </v-toolbar>
       <v-alert outlined color="#3366cc">
         <!-- Components of the homepage -->
+        <!-- Filter number of cocktails to display -->
+        <v-row>
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="pageSize"
+            label="Pagination length"
+            max="25"
+            min="1"
+            step="1"
+            style="width: 125px"
+            type="number"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <!-- Cocktails List  -->
        <v-card class="mx-auto" max-width="1200" outlined>
          <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
 
-          <v-list-item three-line @click="test()">
+          <v-list-item three-line @click="loadCocktail(cocktail)">
             <v-list-item-avatar
               tile
               size="80"
@@ -58,6 +73,9 @@ export default {
       await this.fetchCocktailsByName({ strDrink: this.value })
       this.cocktailsSearched = await this.getCocktailSearch(this.value)
       this.updateVisibleCocktails()
+    },
+    pageSize: function () {
+      this.updateVisibleCocktails()
     }
   },
   computed: {
@@ -87,16 +105,17 @@ export default {
     searchByName () {
       this.$router.push({ name: 'search', params: { value: this.search } })
     },
-    test () {
-
+    loadCocktail (cocktail) {
+      this.$router.push({ name: 'cocktail', params: { id: cocktail.idDrink } })
     },
     updatePage (pageNumber) {
       this.currentPage = pageNumber
       this.updateVisibleCocktails()
     },
     updateVisibleCocktails () {
-      this.visibleCocktails = this.cocktailsSearched.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize)
-
+      const from = parseInt(this.currentPage) * parseInt(this.pageSize)
+      const to = parseInt(this.currentPage * this.pageSize) + parseInt(this.pageSize)
+      this.visibleCocktails = this.cocktailsSearched.slice(from, to)
       if (this.visibleCocktails.length === 0 && this.currentPage > 0) {
         this.updatePage(this.currentPage - 1)
       }
