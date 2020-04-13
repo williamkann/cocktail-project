@@ -58,7 +58,7 @@
             <v-subheader inset>Ingredient</v-subheader>
             <div v-for="(i, index) in this.getIngredients().length" :key="i.id">
                 <div v-if="getIngredients()[index] != null">
-                  <v-list-item  @click="test()">
+                  <v-list-item  @click="loadIngredient(getIngredients()[index])">
                     <v-list-item-content>
                       <v-list-item-title>{{getIngredients()[index]}}</v-list-item-title>
                       <v-list-item-subtitle>{{getMeasures()[index]}}</v-list-item-subtitle>
@@ -131,8 +131,8 @@ export default {
       }
       return cocktailRandomMeasures
     },
-    test () {
-      console.log('clicked')
+    loadIngredient (Ingredient) {
+      this.$router.push({ name: 'ingredient', params: { ingredientName: Ingredient } })
     }
   }
 }

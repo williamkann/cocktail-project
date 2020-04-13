@@ -95,7 +95,6 @@ const actions = {
     commit('addCocktail', data)
   },
   async fetchCocktailsForCategory ({ commit }, { category }) {
-    console.log(category.split(' ').join('_'))
     const { data } = await axios.get(api('filter.php?c=' + category.split(' ').join('_')))
 
     // The API to get cocktails by category just gives us the name + thumbnail + idDrink so we add the property category
