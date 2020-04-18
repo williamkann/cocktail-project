@@ -4,17 +4,17 @@
       <!-- <draggable tag="div" v-model="modulesDatas" :animation="200" ghost-class="moving-card"> -->
         <!-- Display Categories -->
         <div v-for="(category, index) in this.categories" :key="category.id">
-        <v-col cols="12" sm="2" md="12">
-            <v-card height=200 width=350 @click="loadCategory(category)">
-            <v-img
-                height="125"
-                class="grey darken-4"
-                :src="images[index]"
-            >
-            </v-img>
-            <v-card-title class="title">{{category.strCategory}}</v-card-title>
-            </v-card>
-        </v-col>
+          <v-col cols="12" sm="2" md="12">
+              <v-card height=200 width=350 @click="loadCategory(category)">
+              <v-img
+                  height="125"
+                  class="grey darken-4"
+                  :src="images[index]"
+              >
+              </v-img>
+              <v-card-title class="title">{{category.strCategory}}</v-card-title>
+              </v-card>
+          </v-col>
         </div>
       <!-- </draggable> -->
     </v-row>

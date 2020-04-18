@@ -64,16 +64,6 @@ const mutations = {
   }
 }
 
-// var range = (function () {
-//   var data = []
-//   while (data.length < 128) data.push(String.fromCharCode(data.length))
-//   return function (start, stop) {
-//     start = start.charCodeAt(0)
-//     stop = stop.charCodeAt(0)
-//     return (start < 0 || start > 127 || stop < 0 || stop > 127) ? null : data.slice(start, stop + 1)
-//   }
-// })()
-
 const actions = {
   // async fetchCocktails ({ commit }) {
   //   var charAlphaNum = [...range('A', 'Z'), ...range('0', '9')]
@@ -114,6 +104,22 @@ const actions = {
   async fetchCocktailsByLetter ({ commit }, { letter }) {
     const { data } = await axios.get(api('search.php?f=' + letter))
     console.log('Fetched a cocktails by letter', JSON.parse(JSON.stringify(data)))
+    data.drinks.forEach(d => commit('addCocktails', d))
+  },
+  async fetchCocktailsByIngredient ({ commit }, { ingredient }) {
+    const { data } = await axios.get(api('filter.php?i=' + ingredient))
+
+    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property ingrdient to track
+    data.drinks.forEach(function (d) { d.strIngredient = ingredient })
+    console.log('Fetched a cocktails by ingredient', JSON.parse(JSON.stringify(data)))
+    // data.drinks.forEach(d => commit('addCocktails', d))
+  },
+  async fetchCocktailsByCategory ({ commit }, { category }) {
+    const { data } = await axios.get(api('filter.php?c=' + category))
+
+    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property ingrdient to track
+    data.drinks.forEach(function (d) { d.strCategory = category })
+    console.log('Fetched cocktails by category', JSON.parse(JSON.stringify(data)))
     data.drinks.forEach(d => commit('addCocktails', d))
   }
 }

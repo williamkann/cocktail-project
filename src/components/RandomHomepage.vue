@@ -1,35 +1,32 @@
 <template>
   <v-container>
     <v-row justify-md="center">
-      <v-col cols="12" sm="2" md="4">{{this.isAlcoholic}}</v-col>
-      <v-col cols="12" sm="2" md="2">
-        <v-checkbox v-model="isAlcoholic" label="Alcoholic drink"></v-checkbox>
-      </v-col>
+      <v-col cols="12" sm="5" md="5"></v-col>
       <v-col cols="12" sm="2" md="2">
         <v-btn color="primary" @click="generateRandom()">
             Random Generation
         </v-btn>
       </v-col>
-      <v-col cols="12" sm="2" md="4"></v-col>
+      <v-col cols="12" sm="5" md="5"></v-col>
     </v-row>
     <!-- Titles -->
     <v-row>
-      <v-col cols="12" sm="2" md="4">
+      <v-col cols="12" sm="4" md="4">
           <h1 justify-md="center"><v-icon>mdi-glass-tulip</v-icon>{{cocktailRandom.strDrink}}</h1>
       </v-col>
-              <v-col cols="12" sm="2" md="4">
+      <v-col cols="12" sm="4" md="4">
           <h1 justify-md="center"><v-icon>mdi-view-list</v-icon>Ingredients</h1>
       </v-col>
-      <v-col cols="12" sm="2" md="4">
+      <v-col cols="12" sm="4" md="4">
           <h1 justify-md="center"><v-icon>mdi-comment-text-outline</v-icon> Description</h1>
       </v-col>
     </v-row>
     <!-- Contents of each titles -->
     <v-row justify="space-around">
-      <v-col cols="12" sm="2" md="4">
+      <v-col cols="12" sm="4" md="4">
           <v-img :src="cocktailRandom.strDrinkThumb" height="500px" width="500px"></v-img>
       </v-col>
-      <v-col cols="12" sm="2" md="4">
+      <v-col cols="12" sm="4" md="4">
         <v-card class="mx-auto" max-width="400" tile>
           <v-list-item one-line>
             <v-list-item-content>
@@ -69,7 +66,7 @@
           </v-list>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="2" md="4">
+      <v-col cols="12" sm="4" md="4">
           <div>{{cocktailRandom.strInstructions}}</div>
       </v-col>
     </v-row>

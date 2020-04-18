@@ -25,7 +25,7 @@ const routes = [
     component: Category
   },
   {
-    path: '/search/:value',
+    path: '/search/:filterCategory/:filterAlcohol/:value',
     name: 'search',
     component: Search
   },

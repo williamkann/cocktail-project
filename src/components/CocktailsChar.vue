@@ -23,10 +23,10 @@
                 <v-expand-transition>
                   <div
                     v-if="hover"
-                    class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-3 white--text"
+                    class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-1 white--text"
                     style="height: 100%;"
                   >
-                    {{cocktail.strInstructions}}
+                    {{cocktail.strInstructions | truncate(75, '...')}}
                   </div>
                 </v-expand-transition>
               </v-img>
@@ -68,7 +68,7 @@
   opacity: .5;
   position: absolute;
   width: 100%;
-  font-size: 50%;
+  font-size: 1rem;
 }
 </style>
 

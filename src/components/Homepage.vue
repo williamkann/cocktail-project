@@ -4,31 +4,49 @@
     <v-toolbar flat height="110%">
       <v-toolbar-title>Cocktails Website</v-toolbar-title>
       <v-spacer></v-spacer>
-        <div>
-          <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
-        </div>
-        <v-btn @click="searchByName()">Search</v-btn>
+      <v-col class="d-flex" cols="12" sm="6" md="2">
+        <v-select
+          :items="filterAlcoholicItems"
+          v-model="defaultAlcoholic"
+          label="Filter Alcohol"
+          dense
+          outlined
+        ></v-select>
+      </v-col>
+      <v-col class="d-flex" cols="12" sm="6" md="2">
+        <v-select
+          :items="filterCategoryItems"
+          v-model="defaultCategory"
+          label="Filter Category"
+          dense
+          outlined
+        ></v-select>
+      </v-col>
+      <div>
+        <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
+      </div>
+      <v-btn @click="searchByName()">Search</v-btn>
     </v-toolbar>
-      <v-alert outlined color="#3366cc">
-        <!-- Components of the homepage -->
-        <v-row>
-          <v-col cols="12" sm="2" md="12">
-            <CategoryHomepage />
-          </v-col>
-          <v-col cols="12" sm="2" md="12">
-            <v-divider></v-divider>
-          </v-col>
-          <v-col cols="12" sm="2" md="12">
-            <RandomHomepage />
-          </v-col>
-         <v-col cols="12" sm="2" md="12">
-            <v-divider></v-divider>
-          </v-col>
-          <v-col cols="12" sm="2" md="12">
-            <CocktailsChar />
-          </v-col>
-        </v-row>
-      </v-alert>
+    <v-alert outlined color="#3366cc">
+      <!-- Components of the homepage -->
+      <v-row>
+        <v-col cols="12" sm="12" md="12">
+          <CategoryHomepage />
+        </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <v-divider></v-divider>
+        </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <RandomHomepage />
+        </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <v-divider></v-divider>
+        </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <CocktailsChar />
+        </v-col>
+      </v-row>
+    </v-alert>
   </v-container>
 </template>
 
@@ -61,12 +79,16 @@ export default {
   data: () => ({
     search: '',
     cocktailsSearched: [],
-    searchRules: [s => !!s || 'search invalid']
+    searchRules: [s => !!s || 'search invalid'],
+    filterAlcoholicItems: ['Alcoholic', 'Non alcoholic', 'None'],
+    filterCategoryItems: ['Ordinary Drink', 'Cocktail', 'Milk / Float / Shake', 'Other / Unknown', 'Cocoa', 'Shot', 'Coffee / Tea', 'Homemade Liqueur', 'Punch / Party Drinke', 'Beer', 'Soft Drink / Soda', 'None'],
+    defaultAlcoholic: 'None',
+    defaultCategory: 'None'
   }),
 
   methods: {
     searchByName () {
-      this.$router.push({ name: 'search', params: { value: this.search } })
+      this.$router.push({ name: 'search', params: { value: this.search, filterCategory: this.defaultCategory, filterAlcohol: this.defaultAlcoholic } })
     }
   }
 }

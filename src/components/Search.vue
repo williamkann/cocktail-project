@@ -12,6 +12,8 @@
       <v-alert outlined color="#3366cc">
         <!-- Components of the homepage -->
         <!-- Filter number of cocktails to display -->
+        {{this.defaultAlcoholic}}
+        {{this.defaultCategory}}
         <v-row>
         <v-col cols="12" md="3">
           <v-text-field
@@ -80,20 +82,48 @@ export default {
   },
   computed: {
     ...mapGetters('cocktails', ['getCocktailSearch']),
+    ...mapGetters('cocktails', ['getCocktailsByCategory']),
     value: function () {
       return this.$route.params.value
+    },
+    defaultCategory: function () {
+      return this.$route.params.filterCategory
+    },
+    defaultAlcoholic: function () {
+      return this.$route.params.filterAlcohol
     }
   },
 
   async mounted () {
-    await this.fetchCocktailsByName({ strDrink: this.value })
-    this.cocktailsSearched = await this.getCocktailSearch(this.value)
+    if (this.defaultAlcoholic === 'None' && this.defaultCategory === 'None') {
+      await this.fetchCocktailsByName({ strDrink: this.value })
+      this.cocktailsSearched = await this.getCocktailSearch(this.value)
+      console.log('2 None')
+    } else if (this.defaultAlcoholic === 'None' && this.defaultCategory !== 'None') {
+      await this.fetchCocktailsByCategory({ category: this.defaultCategory })
+      this.cocktailsCategory = await this.getCocktailsByCategory({ strCategory: this.defaultCategory })
+
+      console.log('cocktail category are ', JSON.parse(JSON.stringify(this.cocktailsCategory)))
+
+      await this.fetchCocktailsByName({ strDrink: this.value })
+      this.cocktailsSearched = await this.getCocktailSearch(this.value)
+
+      console.log('cocktail searched are ', JSON.parse(JSON.stringify(this.cocktailsSearched)))
+
+      this.cocktailsSearched = await this.intersect(this.cocktailsCategory, this.cocktailsSearched)
+      console.log('cocktail intersect are ', JSON.parse(JSON.stringify(this.cocktailsSearched)))
+      console.log('Alcoholic is None')
+    } else if (this.defaultAlcoholic !== 'None' && this.defaultCategory === 'None') {
+      console.log('Category is None')
+    }
     this.updateVisibleCocktails()
   },
 
   data: () => ({
     search: '',
     cocktailsSearched: [],
+    cocktailsCategory: [],
+    ingredientsSearched: [],
     searchRules: [s => !!s || 'search invalid'],
     currentPage: 0,
     pageSize: 10,
@@ -102,6 +132,7 @@ export default {
 
   methods: {
     ...mapActions('cocktails', ['fetchCocktailsByName']),
+    ...mapActions('cocktails', ['fetchCocktailsByCategory']),
     searchByName () {
       this.$router.push({ name: 'search', params: { value: this.search } })
     },
@@ -119,6 +150,22 @@ export default {
       if (this.visibleCocktails.length === 0 && this.currentPage > 0) {
         this.updatePage(this.currentPage - 1)
       }
+    },
+    intersect: function (a, b) {
+      var intersection = []
+      console.log(a.length)
+      console.log(b)
+      a.forEach(function (a) {
+        console.log(a.strDrink)
+        b.forEach(function (b) {
+          if (a.strDrink === b.strDrink) {
+            console.log('Equal')
+            intersection.push(a)
+          }
+        })
+      })
+      console.log(intersection)
+      return intersection
     }
   }
 }

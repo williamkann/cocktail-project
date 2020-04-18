@@ -13,22 +13,22 @@
         <!-- Components of the detail page -->
         <!-- Titles -->
         <v-row>
-          <v-col cols="12" sm="2" md="4">
+          <v-col cols="12" sm="4" md="4">
               <h1 justify-md="center"><v-icon>mdi-glass-tulip</v-icon>{{this.cocktailDisplay.strDrink}}</h1>
           </v-col>
-                  <v-col cols="12" sm="2" md="4">
+                  <v-col cols="12" sm="4" md="4">
               <h1 justify-md="center"><v-icon>mdi-view-list</v-icon>Ingredients</h1>
           </v-col>
-          <v-col cols="12" sm="2" md="4">
+          <v-col cols="12" sm="4" md="4">
               <h1 justify-md="center"><v-icon>mdi-comment-text-outline</v-icon> Description</h1>
           </v-col>
         </v-row>
         <!-- Contents of each titles -->
         <v-row justify="space-around">
-          <v-col cols="12" sm="2" md="4">
+          <v-col cols="12" sm="4" md="4">
               <v-img :src="this.cocktailDisplay.strDrinkThumb" height="500px" width="500px"></v-img>
           </v-col>
-          <v-col cols="12" sm="2" md="4">
+          <v-col cols="12" sm="4" md="4">
             <v-card class="mx-auto" max-width="400" tile>
               <v-list-item one-line>
                 <v-list-item-content>
@@ -68,7 +68,7 @@
               </v-list>
             </v-card>
           </v-col>
-          <v-col cols="12" sm="2" md="4">
+          <v-col cols="12" sm="4" md="4">
               <div>{{this.cocktailDisplay.strInstructions}}</div>
           </v-col>
         </v-row>
