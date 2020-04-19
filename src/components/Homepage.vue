@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <h1>Un titre</h1>{{this.user}} {{this.isAuthenticated}}
+    <h1>Un titre</h1>
     <v-toolbar flat height="110%">
-      <v-toolbar-title>Cocktails Website<v-btn @click="login()">Log in</v-btn></v-toolbar-title>
+      <v-toolbar-title>Cocktails Website<v-btn @click="createNewCocktail()"><v-icon>mdi-plus</v-icon></v-btn></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-col class="d-flex" cols="12" sm="6" md="1">
           <v-switch v-model="selectionFilter" label="Select your filter"></v-switch>
@@ -30,7 +30,7 @@
       <div>
         <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
       </div>
-      <v-btn @click="searchByName()">Search</v-btn>
+      <v-btn @click="searchByName()"><v-icon>mdi-magnify</v-icon></v-btn>
     </v-toolbar>
     <v-alert outlined color="#3366cc">
       <!-- Components of the homepage -->
@@ -61,7 +61,7 @@ h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; l
 </style>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import CategoryHomepage from './CategoryHomepage.vue'
 import RandomHomepage from './RandomHomepage.vue'
 import CocktailsChar from './CocktailsChar.vue'
@@ -75,9 +75,7 @@ export default {
   },
 
   computed: {
-    ...mapState('cocktails', ['cocktails']),
-    ...mapState('user', ['user']),
-    ...mapGetters('user', ['isAuthenticated'])
+    ...mapState('cocktails', ['cocktails'])
   },
 
   async mounted () {
@@ -104,6 +102,9 @@ export default {
     },
     login () {
       this.$router.push({ name: 'login' })
+    },
+    createNewCocktail () {
+      this.$router.push({ name: 'createCocktail' })
     }
   }
 }

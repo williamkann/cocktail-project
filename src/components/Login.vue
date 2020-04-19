@@ -45,7 +45,7 @@ h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 150px; l
 </style>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'login',
@@ -62,8 +62,6 @@ export default {
   }),
 
   computed: {
-    ...mapState({ }),
-    ...mapGetters('user', ['isAuthenticated'])
   },
 
   methods: {
