@@ -12,6 +12,7 @@
         <v-col cols="12" md="12">
           <v-hover v-slot:default="{ hover }">
             <v-card
+             @click="loadCocktail(cocktail)"
               class="mx-auto"
               color="grey lighten-4"
               width="400"
@@ -137,6 +138,9 @@ export default {
       if (this.visibleCocktails.length === 0 && this.currentPage > 0) {
         this.updatePage(this.currentPage - 1)
       }
+    },
+    loadCocktail (cocktail) {
+      this.$router.push({ name: 'cocktail', params: { id: cocktail.idDrink } })
     }
   }
 }

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import cocktailsStore from './modules/cocktails'
 import categoriesStore from './modules/categories'
 import ingredientsStore from './modules/ingredients'
+import userStore from './modules/user'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   modules: {
     cocktails: cocktailsStore,
     categories: categoriesStore,
-    ingredients: ingredientsStore
+    ingredients: ingredientsStore,
+    user: userStore
   }
 })

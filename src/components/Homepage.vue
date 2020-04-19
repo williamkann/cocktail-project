@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <h1>Un titre</h1>
+    <h1>Un titre</h1>{{this.user}} {{this.isAuthenticated}}
     <v-toolbar flat height="110%">
-      <v-toolbar-title>Cocktails Website</v-toolbar-title>
+      <v-toolbar-title>Cocktails Website<v-btn @click="login()">Log in</v-btn></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-col class="d-flex" cols="12" sm="6" md="1">
           <v-switch v-model="selectionFilter" label="Select your filter"></v-switch>
@@ -61,7 +61,7 @@ h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; l
 </style>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import CategoryHomepage from './CategoryHomepage.vue'
 import RandomHomepage from './RandomHomepage.vue'
 import CocktailsChar from './CocktailsChar.vue'
@@ -75,7 +75,9 @@ export default {
   },
 
   computed: {
-    ...mapState('cocktails', ['cocktails'])
+    ...mapState('cocktails', ['cocktails']),
+    ...mapState('user', ['user']),
+    ...mapGetters('user', ['isAuthenticated'])
   },
 
   async mounted () {
@@ -99,6 +101,9 @@ export default {
       } else if (this.selectionFilter) {
         this.$router.push({ name: 'search', params: { value: this.search, filterCategory: this.defaultCategory, filterAlcohol: 'None' } })
       }
+    },
+    login () {
+      this.$router.push({ name: 'login' })
     }
   }
 }
