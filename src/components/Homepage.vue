@@ -4,11 +4,15 @@
     <v-toolbar flat height="110%">
       <v-toolbar-title>Cocktails Website</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-col class="d-flex" cols="12" sm="6" md="1">
+          <v-switch v-model="selectionFilter" label="Select your filter"></v-switch>
+      </v-col>
       <v-col class="d-flex" cols="12" sm="6" md="2">
         <v-select
           :items="filterAlcoholicItems"
           v-model="defaultAlcoholic"
           label="Filter Alcohol"
+          :disabled="selectionFilter"
           dense
           outlined
         ></v-select>
@@ -18,6 +22,7 @@
           :items="filterCategoryItems"
           v-model="defaultCategory"
           label="Filter Category"
+          :disabled="!selectionFilter"
           dense
           outlined
         ></v-select>
@@ -78,6 +83,7 @@ export default {
 
   data: () => ({
     search: '',
+    selectionFilter: true,
     cocktailsSearched: [],
     searchRules: [s => !!s || 'search invalid'],
     filterAlcoholicItems: ['Alcoholic', 'Non alcoholic', 'None'],
@@ -88,7 +94,11 @@ export default {
 
   methods: {
     searchByName () {
-      this.$router.push({ name: 'search', params: { value: this.search, filterCategory: this.defaultCategory, filterAlcohol: this.defaultAlcoholic } })
+      if (!this.selectionFilter) {
+        this.$router.push({ name: 'search', params: { value: this.search, filterCategory: 'None', filterAlcohol: this.defaultAlcoholic } })
+      } else if (this.selectionFilter) {
+        this.$router.push({ name: 'search', params: { value: this.search, filterCategory: this.defaultCategory, filterAlcohol: 'None' } })
+      }
     }
   }
 }

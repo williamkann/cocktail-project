@@ -47,6 +47,15 @@ const getters = {
       }
     })
     return resultSearch
+  },
+  getCocktailsByAlcoholic: state => strAlcoholic => {
+    var resultSearch = []
+    state.cocktails.forEach(function (cocktail) {
+      if (cocktail.strAlcoholic === strAlcoholic) {
+        resultSearch.push(cocktail)
+      }
+    })
+    return resultSearch
   }
 }
 
@@ -109,7 +118,7 @@ const actions = {
   async fetchCocktailsByIngredient ({ commit }, { ingredient }) {
     const { data } = await axios.get(api('filter.php?i=' + ingredient))
 
-    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property ingrdient to track
+    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property strIngrdient to track
     data.drinks.forEach(function (d) { d.strIngredient = ingredient })
     console.log('Fetched a cocktails by ingredient', JSON.parse(JSON.stringify(data)))
     // data.drinks.forEach(d => commit('addCocktails', d))
@@ -117,9 +126,17 @@ const actions = {
   async fetchCocktailsByCategory ({ commit }, { category }) {
     const { data } = await axios.get(api('filter.php?c=' + category))
 
-    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property ingrdient to track
+    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property strCategory to track
     data.drinks.forEach(function (d) { d.strCategory = category })
     console.log('Fetched cocktails by category', JSON.parse(JSON.stringify(data)))
+    data.drinks.forEach(d => commit('addCocktails', d))
+  },
+  async fetchCocktailsByAlcoholic ({ commit }, { isAlcoholic }) {
+    const { data } = await axios.get(api('filter.php?a=' + isAlcoholic))
+
+    // The API to get cocktails by ingredient just gives us the name + thumbnail + idDrink so we add the property strAlcoholic to track
+    data.drinks.forEach(function (d) { d.strAlcoholic = isAlcoholic })
+    console.log('Fetched cocktails by isAlcoholic', JSON.parse(JSON.stringify(data)))
     data.drinks.forEach(d => commit('addCocktails', d))
   }
 }
