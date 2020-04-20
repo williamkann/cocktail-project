@@ -2,7 +2,10 @@
   <v-container>
     <h1>Un titre</h1>
     <v-toolbar flat height="110%">
-      <v-toolbar-title>Cocktails Website<v-btn @click="createNewCocktail()"><v-icon>mdi-plus</v-icon></v-btn></v-toolbar-title>
+      <v-toolbar-title><router-link to="/">Cocktails Website</router-link><v-btn @click="createNewCocktail()"><v-icon>mdi-plus</v-icon></v-btn></v-toolbar-title>
+      <!-- <v-btn @click="login()">Login</v-btn> -->
+      <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span>
+      <span v-else> | <router-link to="/login">Login</router-link></span>
       <v-spacer></v-spacer>
       <v-col class="d-flex" cols="12" sm="6" md="1">
           <v-switch v-model="selectionFilter" label="Select your filter"></v-switch>
@@ -75,7 +78,10 @@ export default {
   },
 
   computed: {
-    ...mapState('cocktails', ['cocktails'])
+    ...mapState('cocktails', ['cocktails']),
+    isLoggedIn: function () {
+      return this.$store.getters.isLoggedIn
+    }
   },
 
   async mounted () {
@@ -105,6 +111,11 @@ export default {
     },
     createNewCocktail () {
       this.$router.push({ name: 'createCocktail' })
+    },
+    logout: function () {
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push('/login')
+      })
     }
   }
 }

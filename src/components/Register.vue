@@ -32,7 +32,7 @@
                         v-model="password"
                         type="password"
                         :rules="passwordRules"
-                        :counter="20"
+                        :counter="50"
                         label="Password"
                         required
                         ></v-text-field>
@@ -41,6 +41,7 @@
                         <v-text-field
                         v-model="passwordConfirmation"
                         :rules="passwordRules"
+                        type="password"
                         :counter="50"
                         label="Password Confirmation"
                         required
@@ -48,7 +49,7 @@
                     </v-col>
                 </v-row>
                 <div class="text-md-center">
-                <v-btn text large color="primary" @click="registerAccount()">Register new account</v-btn>
+                <v-btn text large color="primary" @click="register()">Register new account</v-btn>
                 </div>
             </v-container>
             </v-form>
@@ -89,13 +90,14 @@ export default {
 
   methods: {
     ...mapActions('user', ['register']),
-    async registerAccount () {
+    register: function () {
       const data = {
         name: this.name,
         email: this.email,
         password: this.password
       }
-      this.register(data)
+      this.store
+        .dispatch('register', data)
         .then(() => this.$router.push('/'))
         .catch(err => console.log(err))
     }

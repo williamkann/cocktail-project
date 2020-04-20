@@ -10,6 +10,7 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
+axios.defaults.withCredentials = false // this line here ! Axios envoie les cookies à votre server
 
 var filter = function (text, length, clamp) {
   clamp = clamp || '...'

@@ -52,30 +52,40 @@
       </v-row>
       <!-- Cocktails List  -->
        <v-card class="mx-auto" max-width="1200" outlined>
-         <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
+         <div v-if="visibleCocktails.length != 0">
+          <div v-for="(cocktail) in visibleCocktails" :key="cocktail.id" :visibleCocktails="visibleCocktails" :currentPage="currentPage">
 
-          <v-list-item three-line @click="loadCocktail(cocktail)">
-            <v-list-item-avatar
-              tile
-              size="80"
-            >
-            <v-img :src="cocktail.strDrinkThumb" :src-lazy="cocktail.strDrinkThumb">
-              <template v-slot:placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                  </v-row>
-                </template>
-            </v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>
-              <v-list-item-subtitle>{{cocktail.strInstructions}}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+            <v-list-item three-line @click="loadCocktail(cocktail)">
+              <v-list-item-avatar
+                tile
+                size="80"
+              >
+              <v-img :src="cocktail.strDrinkThumb" :src-lazy="cocktail.strDrinkThumb">
+                <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
+                  </template>
+              </v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>
+                <v-list-item-subtitle>{{cocktail.strInstructions}}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+         </div>
+         <div v-if="visibleCocktails.length == 0">
+           <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">Drink not found </v-list-item-title>
+                <v-list-item-subtitle>This cocktail doesn't exist, create the cocktail <router-link to="/createCocktail">here</router-link></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
          </div>
         </v-card>
         <!-- Pagination component -->

@@ -6,7 +6,7 @@
             max-width="500"
             outlined
         >
-            <v-form v-model="valid">
+            <v-form v-model="valid" @submit.prevent="login">
             <v-container>
                 <v-row justify-md="center">
                 <v-col cols="12" md="12">
@@ -31,7 +31,7 @@
                 </v-col>
                 </v-row>
                 <div class="text-md-center">
-                <v-btn text large color="primary" @click="signIn">Sign in !</v-btn>
+                <v-btn text large color="primary">Sign in !</v-btn>
                 </div>
             </v-container>
             </v-form>
@@ -66,13 +66,13 @@ export default {
 
   methods: {
     ...mapActions('user', ['login']),
-    async signIn () {
-      try {
-        await this.login({ email: this.email, password: this.password })
-        this.$router.push({ name: 'homepage' })
-      } catch (err) {
-        console.log('Ca marche pas')
-      }
+    login: function () {
+      const email = this.email
+      const password = this.password
+      this.$store
+        .dispatch('login', { email, password })
+        .then(() => this.$router.push('/'))
+        .catch(err => console.log(err))
     }
   }
 }

@@ -2,7 +2,7 @@
   <v-container>
     <h1 style="color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; letter-spacing: -1px; line-height: 2; text-align: center;">Un titre</h1>
     <v-toolbar flat height="110%">
-      <v-toolbar-title>Cocktails Website</v-toolbar-title>
+      <v-toolbar-title><router-link to="/">Cocktails Website</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
         <div>
           <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
