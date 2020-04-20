@@ -26,7 +26,17 @@
         <!-- Contents of each titles -->
         <v-row justify="space-around">
           <v-col cols="12" sm="4" md="4">
-              <v-img :src="this.cocktailDisplay.strDrinkThumb" height="500px" width="500px"></v-img>
+              <v-img :src="this.cocktailDisplay.strDrinkThumb" :src-lazy="this.cocktailDisplay.strDrinkThumb" height="500px" width="500px">
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
           </v-col>
           <v-col cols="12" sm="4" md="4">
             <v-card class="mx-auto" max-width="400" tile>

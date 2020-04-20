@@ -20,6 +20,7 @@
               <v-img
                 :aspect-ratio="16/9"
                 :src="cocktail.strDrinkThumb"
+                :lazy-src="cocktail.strDrinkThumb"
               >
                 <v-expand-transition>
                   <div

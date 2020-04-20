@@ -9,8 +9,19 @@
               <v-img
                   height="125"
                   class="grey darken-4"
+                  :lazy-src="images[index]"
                   :src="images[index]"
+                  aspect-ratio="1"
               >
+              <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
+                  </template>
               </v-img>
               <v-card-title class="title">{{category.strCategory}}</v-card-title>
               </v-card>

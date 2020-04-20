@@ -13,16 +13,21 @@
         <!-- Titles -->
         <v-row>
           <v-col cols="12" sm="4" md="4">
-              <h1><v-icon>mdi-glass-tulip</v-icon>
+            <v-row>
+              <v-col cols="12" sm="4" md="1">
+                <h1><v-icon>mdi-glass-tulip</v-icon></h1>
+              </v-col>
+              <v-col cols="12" sm="4" md="11">
                 <v-text-field
                   width="50"
-                  label="Measures"
-                  placeholder="Measures"
+                  label="Cocktail's name"
+                  placeholder="Cocktail's name"
                   solo
                   ></v-text-field>
-              </h1>
+              </v-col>
+            </v-row>
           </v-col>
-                  <v-col cols="12" sm="4" md="4">
+          <v-col cols="12" sm="4" md="4">
               <h1 justify-md="center"><v-icon>mdi-view-list</v-icon>Ingredients</h1>
           </v-col>
           <v-col cols="12" sm="4" md="4">
@@ -78,21 +83,24 @@
                   <v-btn class="ma-2" outlined small fab color="white" @click="addIngredient()">
                     <v-icon>mdi-plus</v-icon>
                   </v-btn>
+                  <v-btn class="ma-2" outlined small fab color="white" @click="deleteIngredient()">
+                    <v-icon>mdi-minus</v-icon>
+                  </v-btn>
                 </v-subheader>
-                  <div v-for="(i) in this.ingredientsList.length" :key="i.id">
+                  <div v-for="(i, index) in this.ingredientsList.length" :key="i.id">
                     <v-list-item>
                       <v-list-item-content>
                         <v-list-item-title>
                           <v-text-field
                             label="Ingredient"
-                            placeholder="Ingredient"
+                            :placeholder="`Ingredient ${index + 1}`"
                             solo
                           ></v-text-field>
                         </v-list-item-title>
                         <v-list-item-subtitle>
                           <v-text-field
                             label="Measures"
-                            placeholder="Measures"
+                            :placeholder="`Measures ${index + 1}`"
                             solo
                           ></v-text-field>
                         </v-list-item-subtitle>
@@ -141,6 +149,9 @@ export default {
     },
     addIngredient () {
       this.ingredientsList.push({ ingredient: { name: '', measure: '' } })
+    },
+    deleteIngredient () {
+      this.ingredientsList.splice(this.ingredientsList.length - 1, 1)
     }
   }
 }

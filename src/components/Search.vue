@@ -30,11 +30,9 @@
       </v-col>
       <!-- Search field -->
       <div>
-        {{this.defaultAlcoholic}}
-        {{this.defaultCategory}}
         <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
       </div>
-      <v-btn @click="searchByName()">Search</v-btn>
+      <v-btn @click="searchByName()"><v-icon>mdi-magnify</v-icon></v-btn>
     </v-toolbar>
       <v-alert outlined color="#3366cc">
         <!-- Components of the homepage -->
@@ -61,7 +59,17 @@
               tile
               size="80"
             >
-            <v-img :src="cocktail.strDrinkThumb"></v-img>
+            <v-img :src="cocktail.strDrinkThumb" :src-lazy="cocktail.strDrinkThumb">
+              <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </v-row>
+                </template>
+            </v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>

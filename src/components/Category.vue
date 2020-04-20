@@ -4,12 +4,36 @@
     <v-toolbar flat height="110%">
       <v-toolbar-title>Cocktails Website</v-toolbar-title>
       <v-spacer></v-spacer>
+      <!-- Filters section -->
+      <v-col class="d-flex" cols="12" sm="6" md="1">
+          <v-switch v-model="selectionFilter" label="Select your filter"></v-switch>
+      </v-col>
+      <v-col class="d-flex" cols="12" sm="6" md="2">
+        <v-select
+          :items="filterAlcoholicItems"
+          v-model="defaultAlcoholic"
+          label="Filter Alcohol"
+          :disabled="selectionFilter"
+          dense
+          outlined
+        ></v-select>
+      </v-col>
+      <v-col class="d-flex" cols="12" sm="6" md="2">
+        <v-select
+          :items="filterCategoryItems"
+          v-model="defaultCategory"
+          label="Filter Category"
+          :disabled="!selectionFilter"
+          dense
+          outlined
+        ></v-select>
+      </v-col>
         <div>
           <v-text-field v-model="search" label="Search" placeholder="Type some cocktail" :rules="searchRules"></v-text-field>
         </div>
-        <v-btn @click="searchByName()">Search</v-btn>
+        <v-btn @click="searchByName()"><v-icon>mdi-magnify</v-icon></v-btn>
     </v-toolbar>
-      <v-alert outlined color="#3366cc">
+    <v-alert outlined color="#3366cc">
         <!-- Components of the homepage -->
         <!-- Filter number of cocktails to display -->
         <v-row>
@@ -37,7 +61,17 @@
                 tile
                 size="80"
               >
-              <v-img :src="cocktail.strDrinkThumb"></v-img>
+              <v-img :src="cocktail.strDrinkThumb" :lazy-src="cocktail.strDrinkThumb">
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="headline mb-1">{{cocktail.strDrink}}</v-list-item-title>
@@ -58,7 +92,7 @@
           />
         </v-col>
       </v-row>
-      </v-alert>
+    </v-alert>
   </v-container>
 </template>
 
@@ -99,17 +133,26 @@ export default {
   data: () => ({
     search: '',
     cocktailsSearched: [],
+    defaultAlcoholic: 'None',
+    defaultCategory: 'None',
     searchRules: [s => !!s || 'search invalid'],
     currentPage: 0,
     pageSize: 10,
-    visibleCocktails: []
+    visibleCocktails: [],
+    selectionFilter: true,
+    filterAlcoholicItems: ['Alcoholic', 'Non alcoholic', 'None'],
+    filterCategoryItems: ['Ordinary Drink', 'Cocktail', 'Milk / Float / Shake', 'Other / Unknown', 'Cocoa', 'Shot', 'Coffee / Tea', 'Homemade Liqueur', 'Punch / Party Drinke', 'Beer', 'Soft Drink / Soda', 'None']
   }),
 
   methods: {
     ...mapActions('cocktails', ['fetchCocktailsByName']),
     ...mapActions('cocktails', ['fetchCocktailsForCategory']),
     searchByName () {
-      this.$router.push({ name: 'search', params: { value: this.search } })
+      if (!this.selectionFilter) {
+        this.$router.push({ name: 'search', params: { value: this.search, filterCategory: 'None', filterAlcohol: this.defaultAlcoholic } })
+      } else if (this.selectionFilter) {
+        this.$router.push({ name: 'search', params: { value: this.search, filterCategory: this.defaultCategory, filterAlcohol: 'None' } })
+      }
     },
     updatePage (pageNumber) {
       this.currentPage = pageNumber
