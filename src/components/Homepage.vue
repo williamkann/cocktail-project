@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1 id="logo">WikiDrink</h1>
-    <v-img src="../assets/ic_logo.png" height="10rem" width="10rem"/>
+    <img src="../assets/ic_logo.png" height="250rem" width="240rem" class="center"/>
     <v-toolbar flat height="110%">
       <v-toolbar-title><router-link to="/">Homepage</router-link><v-btn @click="createNewCocktail()"><v-icon>mdi-plus</v-icon></v-btn></v-toolbar-title>
       <span v-if="isLoggedIn"><a @click="logout">Logout</a></span>
@@ -61,8 +61,10 @@
 </template>
 
 <style scoped>
-v-img {
-  position: right 35% bottom 45%;
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 #logo {
   position: absolute;

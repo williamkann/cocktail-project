@@ -1,7 +1,8 @@
 <template>
     <v-container>
       <div v-show="!fullscreen">
-        <h1 style="color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; letter-spacing: -1px; line-height: 2; text-align: center;">Wikidrink</h1>
+        <h1 id="logo">WikiDrink</h1>
+        <img src="../assets/ic_logo.png" height="250rem" width="240rem" class="center"/>
         <v-toolbar flat height="110%">
           <v-toolbar-title><router-link to="/">Homepage</router-link> Creating a new cocktail</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -11,33 +12,33 @@
         <!-- Components of the detail page -->
         <!-- Titles -->
         <v-row>
-          <v-col cols="12" sm="4" md="4">
-            <v-row>
-              <v-col cols="12" sm="1" md="1">
-                <h1><v-icon>mdi-glass-tulip</v-icon></h1>
-              </v-col>
-              <v-col cols="12" sm="11" md="11">
-                <v-text-field
-                  width="50"
-                  label="Cocktail's name"
-                  placeholder="Cocktail's name"
-                  solo
-                  ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col cols="12" sm="4" md="4">
+            <v-col cols="12" sm="4" md="4" v-show="!fullscreen">
+              <v-row>
+                <v-col cols="12" sm="1" md="1">
+                  <h1><v-icon>mdi-glass-tulip</v-icon></h1>
+                </v-col>
+                <v-col cols="12" sm="11" md="11">
+                  <v-text-field
+                    width="50"
+                    label="Cocktail's name"
+                    placeholder="Cocktail's name"
+                    solo
+                    ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+          <v-col cols="12" sm="4" :md="ingredientSize">
               <h1 justify-md="center"><v-icon>mdi-view-list</v-icon>Ingredients</h1>
           </v-col>
-          <v-col cols="12" sm="2" md="2">
+          <v-col cols="12" sm="2" :md="descriptionSize">
               <h1 justify-md="center"><v-icon>mdi-comment-text-outline</v-icon>Description</h1>
           </v-col>
-          <v-col cols="12" sm="1" md="1">
+          <v-col cols="12" sm="1" :md="buttonSize">
             <v-btn class="ma-2" outlined small color="white" @click="saveCocktail()">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
           </v-col>
-          <v-col cols="12" sm="1" md="1">
+          <v-col cols="12" sm="1" :md="buttonSize">
             <div v-if="!fullscreen">
               <v-btn class="ma-2" outlined small color="white" @click="putFullscreen()">
                 <v-icon>mdi-fullscreen</v-icon>
@@ -52,11 +53,11 @@
         </v-row>
         <!-- Contents of each titles -->
         <v-row justify="space-around">
-          <v-col cols="12" sm="4" md="4">
+          <v-col cols="12" sm="4" md="4" v-show="!fullscreen">
               <v-img :src="this.myImage" height="500px" width="500px"></v-img>
               <input type="file" @change="onFileSelected"/>
           </v-col>
-          <v-col cols="12" sm="4" md="4">
+          <v-col cols="12" sm="4" :md="this.ingredientSize">
             <v-card class="mx-auto" max-width="400" tile>
               <v-list-item one-line>
                 <v-list-item-content>
@@ -126,7 +127,7 @@
               </v-list>
             </v-card>
           </v-col>
-          <v-col cols="12" sm="4" md="4">
+          <v-col cols="12" sm="4" :md="this.ingredientSize">
               <DesctiptionEditor ></DesctiptionEditor>
           </v-col>
         </v-row>
@@ -135,8 +136,42 @@
 </template>
 
 <style scoped>
-h1, div {
+div {
   color: white;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#logo {
+  position: absolute;
+  text-align: center;
+  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
+  color: #3366cc;
+  text-decoration: none;
+  text-transform: none;
+  font-size: 150px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  line-height: 1.5;
+  text-shadow: rgb(255, 255, 255) 3px 2px 0;
+  position: relative;
+}
+#logo:after {
+  content:"dreamdealer";
+  position: absolute;
+  left: 8px;
+  top: 32px;
+}
+#logo:after {
+  background-image: -webkit-linear-gradient(left top, transparent 0%, transparent 25%, #555 25%, #555 50%, transparent 50%, transparent 75%, #555 75%);
+  background-size: 4px 4px;
+  -webkit-text-fill-color: transparent;
+  z-index: -5;
+  display: block;
+  text-shadow: none;
 }
 </style>
 
@@ -150,7 +185,10 @@ export default {
   data: () => ({
     ingredientsList: [{ ingredient: { name: '', measure: '' } }],
     myImage: require('../assets/ic_add_image.png'),
-    fullscreen: false
+    fullscreen: false,
+    ingredientSize: 4,
+    descriptionSize: 2,
+    buttonSize: 1
   }),
 
   computed: {
@@ -172,8 +210,14 @@ export default {
     },
     putFullscreen () {
       if (this.fullscreen === false) {
+        this.ingredientSize = 6
+        this.descriptionSize = 4
+        this.buttonSize = 1
         this.fullscreen = true
       } else if (this.fullscreen === true) {
+        this.ingredientSize = 4
+        this.descriptionSize = 2
+        this.buttonSize = 1
         this.fullscreen = false
       }
     }

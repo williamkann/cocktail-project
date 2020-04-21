@@ -1,6 +1,7 @@
 <template>
     <v-container>
-        <h1>Wikidrink</h1>
+        <h1 id="logo">WikiDrink</h1>
+        <img src="../assets/ic_logo.png" height="250rem" width="240rem" class="center"/>
         <v-card
             class="mx-auto"
             max-width="500"
@@ -58,8 +59,39 @@
 </template>
 
 <style scoped>
-h1 { color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 150px; letter-spacing: -1px; line-height: 2; text-align: center; }
-
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#logo {
+  position: absolute;
+  text-align: center;
+  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
+  color: #3366cc;
+  text-decoration: none;
+  text-transform: none;
+  font-size: 150px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  line-height: 1.5;
+  text-shadow: rgb(255, 255, 255) 3px 2px 0;
+  position: relative;
+}
+#logo:after {
+  content:"dreamdealer";
+  position: absolute;
+  left: 8px;
+  top: 32px;
+}
+#logo:after {
+  background-image: -webkit-linear-gradient(left top, transparent 0%, transparent 25%, #555 25%, #555 50%, transparent 50%, transparent 75%, #555 75%);
+  background-size: 4px 4px;
+  -webkit-text-fill-color: transparent;
+  z-index: -5;
+  display: block;
+  text-shadow: none;
+}
 </style>
 
 <script>
