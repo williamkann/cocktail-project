@@ -13,8 +13,6 @@ const state = {
 
 const getters = {
   getCocktailById: state => idDrink => {
-    // console.log(state.cocktails.find(_ => _.idDrink === parseInt(idDrink.idDrink)))
-    // return state.cocktails.find(_ => _.idDrink === parseInt(idDrink.idDrink))
     return state.cocktail.drinks[0]
   },
   getCocktailRandom: state => {
@@ -74,16 +72,6 @@ const mutations = {
 }
 
 const actions = {
-  // async fetchCocktails ({ commit }) {
-  //   var charAlphaNum = [...range('A', 'Z'), ...range('0', '9')]
-  //   charAlphaNum.forEach(async function (character) {
-  //     var data = await axios.get(api('/search.php?f=' + character))
-  //     if (data !== null) {
-  //       // console.log('data', JSON.parse(JSON.stringify(data.data.drinks)))
-  //       data.data.drinks.forEach(d => commit('addCocktail', d))
-  //     }
-  //   })
-  // },
   async fetchCocktailById ({ commit }, { id }) {
     const { data } = await axios.get(api('/lookup.php?i=' + id))
     console.log('Fetched a cocktail by id ', JSON.parse(JSON.stringify(data)))

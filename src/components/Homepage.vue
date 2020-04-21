@@ -3,9 +3,15 @@
     <h1 id="logo">WikiDrink</h1>
     <img src="../assets/ic_logo.png" height="250rem" width="240rem" class="center"/>
     <v-toolbar flat height="110%">
-      <v-toolbar-title><router-link to="/">Homepage</router-link><v-btn @click="createNewCocktail()"><v-icon>mdi-plus</v-icon></v-btn></v-toolbar-title>
-      <span v-if="isLoggedIn"><a @click="logout">Logout</a></span>
-      <span v-else><router-link to="/login">Login</router-link> | <router-link to="/register">Register</router-link> </span>
+      <v-toolbar-title><router-link to="/">Homepage</router-link>
+        <span v-if="this.isAuthenticated">
+          <v-btn @click="createNewCocktail()">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </span>
+      </v-toolbar-title>
+      <span v-if="this.isAuthenticated"><a @click="logout()">Logout</a></span>
+      <span v-else> | <router-link to="/login">Login</router-link> | <router-link to="/register">Register</router-link> </span>
       <v-spacer></v-spacer>
       <!-- Filter section -->
       <v-col class="d-flex" cols="12" sm="6" md="1">
@@ -97,7 +103,7 @@
 </style>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import CategoryHomepage from './CategoryHomepage.vue'
 import RandomHomepage from './RandomHomepage.vue'
 import CocktailsChar from './CocktailsChar.vue'
@@ -112,6 +118,7 @@ export default {
 
   computed: {
     ...mapState('cocktails', ['cocktails']),
+    ...mapGetters('user', ['isAuthenticated']),
     isLoggedIn: function () {
       return this.$store.getters.isLoggedIn
     }
@@ -145,10 +152,12 @@ export default {
     createNewCocktail () {
       this.$router.push({ name: 'createCocktail' })
     },
-    logout: function () {
-      this.$store.dispatch('logout').then(() => {
-        this.$router.push('/login')
+    async logout () {
+      const response = await this.axios.get('http://localhost:4000/api/logout', {
+        login: 'admin',
+        password: 'changethispassword'
       })
+      console.log('response is:', response)
     }
   }
 }

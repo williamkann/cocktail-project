@@ -94,16 +94,15 @@ export default {
   }),
 
   computed: {
+
   },
 
   methods: {
     ...mapActions('user', ['login']),
-    signIn: function () {
-      const data = {
-        email: this.email,
-        password: this.password
-      }
-      this.login({ user: data })
+    async signIn () {
+      // connecter l'utilisateur
+      this.login({ email: this.email, password: this.password }).then(
+        this.$router.push({ name: 'homepage' }))
     }
   }
 }

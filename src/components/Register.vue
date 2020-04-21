@@ -128,7 +128,9 @@ export default {
         email: this.email,
         password: this.password
       }
-      this.register({ user: data })
+      this.register({ user: data }).then(
+        this.$router.push({ name: 'login' })
+      )
     }
   }
 }

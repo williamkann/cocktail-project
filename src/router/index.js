@@ -8,8 +8,20 @@ import Ingredient from '../components/Ingredient.vue'
 import CreateCocktail from '../components/CreateCocktail.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
+import store from '../vue/store/index.js'
 
 Vue.use(VueRouter)
+
+async function beforeEnter (_to, _from, next) {
+  if (!store.getters['user/isAuthenticated']) {
+    // await store.dispatch('user/fetchUser')
+  }
+  if (store.getters['user/isAuthenticated']) {
+    next()
+    return
+  }
+  next('/login')
+}
 
 const routes = [
   {
@@ -40,7 +52,8 @@ const routes = [
   {
     path: '/createCocktail',
     name: 'createCocktail',
-    component: CreateCocktail
+    component: CreateCocktail,
+    beforeEnter
   },
   {
     path: '/login',

@@ -1,57 +1,100 @@
-'use strict'
 const express = require('express')
-const DB = require('./db')
-const config = require('./config')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
-const db = new DB('sqlitedb')
+const morgan = require('morgan')
+const cors = require('cors')
+const session = require('express-session')
+
 const app = express()
-const router = express.Router()
-router.use(bodyParser.urlencoded({ extended: false }))
-router.use(bodyParser.json())
 
-// CORS middleware
-const allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Headers', '*')
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', '*')
-  next()
-}
+// ces lignes (cors) sont importantes pour les sessions dans la version de développement
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:8080'
+}))
+app.use(session({
+  secret: 'secretSession', // changez cette valeur
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // ne changez que si vous avez activé le https
+}))
+app.use(morgan('dev'))
+app.use(bodyParser.json())
 
-router.post('/register', function (req, res) {
-  db.insert([
-    req.body.name,
-    req.body.email,
-    bcrypt.hashSync(req.body.password, 8)
-  ],
-  function (err) {
-    if (err) return res.status(500).send('There was a problem registering the user.')
-    db.selectByEmail(req.body.email, (err, user) => {
-      if (err) return res.status(500).send('There was a problem getting user')
-      const token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400 // expires in 24 hours
+const path = require('path')
+app.use(express.static(path.join(__dirname, '/dist')))
+
+const users = [{
+  username: 'admin',
+  password: 'changethispassword'
+}]
+
+app.get('/api/test', (req, res) => {
+  console.log('ce console.log est appelé au bon moment')
+  res.json([
+    {
+      title: 'truc',
+      content: 'machin'
+    }, {
+      title: 'truc2',
+      content: 'machin2'
+    }
+  ])
+})
+
+app.post('/api/login', (req, res) => {
+  console.log('req.body', req.body)
+  console.log('req.query', req.query)
+  if (!req.session.userId) {
+    const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+    if (!user) {
+      // gérez le cas où on n'a pas trouvé d'utilisateur correspondant
+      res.status(401)
+      res.json({
+        message: 'error'
       })
-      res.status(200).send({ auth: true, token: token, user: user })
+    } else {
+      // connect the user
+      req.session.userId = 1000 // connect the user, and change the id
+      res.json({
+        message: 'connected'
+      })
+    }
+  } else {
+    res.status(401)
+    req.session.userId = 1000
+    res.json({
+      message: 'you are already connected'
     })
+  }
+})
+
+app.get('/api/logout', (req, res) => {
+  if (!req.session.userId) {
+    res.status(401)
+    res.json({
+      message: 'you are already disconnected'
+    })
+  } else {
+    req.session.userId = 0
+    res.json({
+      message: 'you are now disconnected'
+    })
+  }
+})
+
+app.get('/api/admin', (req, res) => {
+  if (!req.session.userId || req.session.isAdmin === false) {
+    res.status(401)
+    res.json({ message: 'Unauthorized' })
+    return
+  }
+
+  res.json({
+    message: 'congrats, you are connected'
   })
 })
 
-router.post('/login', (req, res) => {
-  db.selectByEmail(req.body.email, (err, user) => {
-    if (err) return res.status(500).send('Error on the server.')
-    if (!user) return res.status(404).send('No user found.')
-    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password)
-    if (!passwordIsValid) return res.status(401).send({ auth: false, token: null })
-    const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 86400 // expires in 24 hours
-    })
-    res.status(200).send({ auth: true, token: token, user: user })
-  })
-})
-app.use(allowCrossDomain)
-app.use(router)
-const port = process.env.PORT || 3000
-app.listen(port, function () {
-  console.log('Server listening on port ' + port)
+const port = process.env.PORT || 4000
+app.listen(port, () => {
+  console.log(`listening on ${port}`)
 })
