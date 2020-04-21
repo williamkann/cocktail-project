@@ -36,6 +36,7 @@ const actions = {
           localStorage.setItem('token', token)
           // Add the following line:
           axios.defaults.headers.common.Authorization = token
+          console.log(resp)
           commit('auth_success', token, user)
           resolve(resp)
         })
@@ -56,6 +57,7 @@ const actions = {
           localStorage.setItem('token', token)
           // Add the following line:
           axios.defaults.headers.common.Authorization = token
+          console.log(resp)
           commit('auth_success', token, user)
           resolve(resp)
         })
