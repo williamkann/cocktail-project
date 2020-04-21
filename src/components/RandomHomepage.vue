@@ -21,7 +21,7 @@
           <h1 justify-md="center"><v-icon>mdi-comment-text-outline</v-icon> Description</h1>
       </v-col>
     </v-row>
-    <!-- Contents of each titles -->
+    <!-- Contents of each section -->
     <v-row justify="space-around">
       <v-col cols="12" sm="4" md="4">
           <v-img :src="cocktailRandom.strDrinkThumb" :lazy-src="cocktailRandom.strDrinkThumb" height="500px" width="500px">
