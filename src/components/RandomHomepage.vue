@@ -4,7 +4,7 @@
       <v-col cols="12" sm="5" md="5"></v-col>
       <v-col cols="12" sm="2" md="2">
         <v-btn color="primary" @click="generateRandom()">
-            Random Generation
+            Random cocktail
         </v-btn>
       </v-col>
       <v-col cols="12" sm="5" md="5"></v-col>
@@ -24,7 +24,17 @@
     <!-- Contents of each titles -->
     <v-row justify="space-around">
       <v-col cols="12" sm="4" md="4">
-          <v-img :src="cocktailRandom.strDrinkThumb" height="500px" width="500px"></v-img>
+          <v-img :src="cocktailRandom.strDrinkThumb" :lazy-src="cocktailRandom.strDrinkThumb" height="500px" width="500px">
+            <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </v-row>
+                </template>
+          </v-img>
       </v-col>
       <v-col cols="12" sm="4" md="4">
         <v-card class="mx-auto" max-width="400" tile>

@@ -6,6 +6,8 @@ import Search from '../components/Search.vue'
 import Category from '../components/Category.vue'
 import Ingredient from '../components/Ingredient.vue'
 import CreateCocktail from '../components/CreateCocktail.vue'
+import Login from '../components/Login.vue'
+import Register from '../components/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +41,16 @@ const routes = [
     path: '/createCocktail',
     name: 'createCocktail',
     component: CreateCocktail
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
   }
 ]
 

@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <h1>Un titre</h1>
+    <h1>Wikidrink</h1>
     <v-toolbar flat height="110%">
-      <v-toolbar-title><router-link to="/">Cocktails Website</router-link></v-toolbar-title>
+      <v-toolbar-title><router-link to="/">Homepage</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- Filters section -->
       <v-col class="d-flex" cols="12" sm="6" md="1">

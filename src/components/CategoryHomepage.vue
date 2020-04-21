@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-row justify-md="center">
-      <!-- <draggable tag="div" v-model="modulesDatas" :animation="200" ghost-class="moving-card"> -->
         <!-- Display Categories -->
         <div v-for="(category, index) in this.categories" :key="category.id">
           <v-col cols="12" sm="2" md="12">
@@ -13,32 +12,25 @@
                   :src="images[index]"
                   aspect-ratio="1"
               >
-              <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                    </v-row>
-                  </template>
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </v-row>
+                </template>
               </v-img>
               <v-card-title class="title">{{category.strCategory}}</v-card-title>
               </v-card>
           </v-col>
         </div>
-      <!-- </draggable> -->
     </v-row>
   </v-container>
 </template>
 
 <style lang="scss" scoped>
-.moving-card {
-    @apply opacity-50;
-    @apply bg-gray-100;
-    @apply border;
-    @apply border-blue-500;
-  }
 
 .v-card--reveal {
   align-items: center;

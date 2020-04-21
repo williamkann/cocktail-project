@@ -1,9 +1,9 @@
 <template>
     <v-container>
       <div v-show="!fullscreen">
-        <h1 style="color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; letter-spacing: -1px; line-height: 2; text-align: center;">Un titre</h1>
+        <h1 style="color:white; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; letter-spacing: -1px; line-height: 2; text-align: center;">Wikidrink</h1>
         <v-toolbar flat height="110%">
-          <v-toolbar-title><router-link to="/">Cocktails Website</router-link> Creating a new cocktail</v-toolbar-title>
+          <v-toolbar-title><router-link to="/">Homepage</router-link> Creating a new cocktail</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
       </div>
@@ -13,10 +13,10 @@
         <v-row>
           <v-col cols="12" sm="4" md="4">
             <v-row>
-              <v-col cols="12" sm="4" md="1">
+              <v-col cols="12" sm="1" md="1">
                 <h1><v-icon>mdi-glass-tulip</v-icon></h1>
               </v-col>
-              <v-col cols="12" sm="4" md="11">
+              <v-col cols="12" sm="11" md="11">
                 <v-text-field
                   width="50"
                   label="Cocktail's name"
@@ -29,15 +29,15 @@
           <v-col cols="12" sm="4" md="4">
               <h1 justify-md="center"><v-icon>mdi-view-list</v-icon>Ingredients</h1>
           </v-col>
-          <v-col cols="12" sm="4" md="2">
+          <v-col cols="12" sm="2" md="2">
               <h1 justify-md="center"><v-icon>mdi-comment-text-outline</v-icon>Description</h1>
           </v-col>
-          <v-col cols="12" sm="4" md="1">
+          <v-col cols="12" sm="1" md="1">
             <v-btn class="ma-2" outlined small color="white" @click="saveCocktail()">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
           </v-col>
-          <v-col cols="12" sm="4" md="1">
+          <v-col cols="12" sm="1" md="1">
             <div v-if="!fullscreen">
               <v-btn class="ma-2" outlined small color="white" @click="putFullscreen()">
                 <v-icon>mdi-fullscreen</v-icon>

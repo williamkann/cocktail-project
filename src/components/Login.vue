@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h1>Un titre</h1>
+        <h1>Wikidrink</h1>
         <v-card
             class="mx-auto"
             max-width="500"

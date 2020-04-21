@@ -35,7 +35,7 @@
           </button>
       </div>
     </editor-menu-bar>
-    <editor-content style="color:white;background:grey;" :editor="editor" />
+    <editor-content style="color:white;background:#353838;height:28rem;" :editor="editor" />
   </div>
 </template>
 

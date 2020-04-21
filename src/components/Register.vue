@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h1>Un titre</h1>
+        <h1>Wikidrink</h1>
         <v-card
             class="mx-auto"
             max-width="500"
@@ -14,7 +14,7 @@
                         v-model="name"
                         :rules="nameRules"
                         :counter="50"
-                        label="name"
+                        label="Name"
                         required
                         ></v-text-field>
                     </v-col>
@@ -49,7 +49,7 @@
                     </v-col>
                 </v-row>
                 <div class="text-md-center">
-                <v-btn text large color="primary" @click="register()">Register new account</v-btn>
+                <v-btn text large color="primary" @click="registerNewAccount()">Register new account</v-btn>
                 </div>
             </v-container>
             </v-form>
@@ -90,16 +90,13 @@ export default {
 
   methods: {
     ...mapActions('user', ['register']),
-    register: function () {
+    registerNewAccount: function () {
       const data = {
         name: this.name,
         email: this.email,
         password: this.password
       }
-      this.store
-        .dispatch('register', data)
-        .then(() => this.$router.push('/'))
-        .catch(err => console.log(err))
+      this.register({ user: data })
     }
   }
 }

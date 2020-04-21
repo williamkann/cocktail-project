@@ -12,10 +12,12 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
 // CORS middleware
-const enableCrossDomain = function (req, res, next) {
+const allowCrossDomain = function (req, res, next) {
+  res.header('Access-Control-Allow-Headers', '*')
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', '*')
   next()
 }
-app.use(enableCrossDomain)
 
 router.post('/register', function (req, res) {
   db.insert([
@@ -47,7 +49,7 @@ router.post('/login', (req, res) => {
     res.status(200).send({ auth: true, token: token, user: user })
   })
 })
-
+app.use(allowCrossDomain)
 app.use(router)
 const port = process.env.PORT || 3000
 app.listen(port, function () {

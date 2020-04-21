@@ -12,6 +12,11 @@ Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 axios.defaults.withCredentials = false // this line here ! Axios envoie les cookies à votre server
 
+const token = localStorage.getItem('token')
+if (token) {
+  axios.defaults.headers.common.Authorization = token
+}
+
 var filter = function (text, length, clamp) {
   clamp = clamp || '...'
   var node = document.createElement('div')
