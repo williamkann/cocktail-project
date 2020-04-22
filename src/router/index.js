@@ -8,6 +8,7 @@ import Ingredient from '../components/Ingredient.vue'
 import CreateCocktail from '../components/CreateCocktail.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
+import Profile from '../components/Profile.vue'
 import store from '../vue/store/index.js'
 
 Vue.use(VueRouter)
@@ -64,6 +65,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile
   }
 ]
 

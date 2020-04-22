@@ -28,6 +28,9 @@ const getters = {
       return !!state.user.role.rights.find(r => r === right)
     }
     return false
+  },
+  getUser: state => {
+    return state.user
   }
 }
 
@@ -48,6 +51,9 @@ const actions = {
     const { response } = await axios.get('http://localhost:4000/api/logout')
     console.log('logout:' + response)
     commit('UNSET_USER')
+  },
+  UPDATE_USER: function ({ commit }, payload) {
+    commit('MUTATE_USER', payload)
   }
 }
 
@@ -70,6 +76,9 @@ const mutations = {
     state.user.email = ''
     state.user.role = null
     state.connected = false
+  },
+  MUTATE_USER: function (state, payload) {
+    state.user = payload
   }
 }
 export default {

@@ -10,7 +10,7 @@
           </v-btn>
         </span>
       </v-toolbar-title>
-      <span v-if="this.isAuthenticated"><a @click="logout()">Logout</a></span>
+      <span v-if="this.isAuthenticated"><a @click="logout()">Logout</a> | <router-link to="/profile">Profile</router-link></span>
       <span v-else> | <router-link to="/login">Login</router-link> | <router-link to="/register">Register</router-link> </span>
       <v-spacer></v-spacer>
       <!-- Filter section -->
