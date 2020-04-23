@@ -52,7 +52,7 @@ const actions = {
     console.log('logout:' + response)
     commit('UNSET_USER')
   },
-  UPDATE_USER: function ({ commit }, payload) {
+  async updateUser ({ commit }, payload) {
     commit('MUTATE_USER', payload)
   }
 }

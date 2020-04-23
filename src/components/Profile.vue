@@ -138,9 +138,9 @@ export default {
   },
 
   methods: {
-    ...mapActions('user', ['UPDATE_USER']),
+    ...mapActions('user', ['updateUser']),
     handleSubmit () {
-      this.UPDATE_USER(this.formdata)
+      this.updateUser(this.formdata)
     }
   }
 }
